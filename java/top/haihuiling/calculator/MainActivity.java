@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     Boolean isPressMul = false;
     Boolean isPressSub = false;
     Boolean isPressPlus = false;
+    String lastResult ="";
+    Boolean isInvalid = false;
 //    DisplayMetrics  dm = new DisplayMetrics();
 //    int screenWidth  = dm.widthPixels;
     @Override
@@ -44,173 +46,188 @@ public class MainActivity extends AppCompatActivity {
         btn0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // if(!isPressEqu){
                     doNumInput("0");
                     result.setText(result.getText()+"0");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-                //}
             }
         });
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(!isPressEqu) {
                     doNumInput("1");
                     result.setText(result.getText() + "1");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-                //}
             }
         });
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(!isPressEqu) {
                     doNumInput("2");
                     result.setText(result.getText() + "2");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-                //}
             }
         });
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(!isPressEqu) {
                     doNumInput("3");
                     result.setText(result.getText() + "3");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-               // }
             }
         });
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(!isPressEqu) {
                     doNumInput("4");
                     result.setText(result.getText() + "4");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-                //}
             }
         });
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(!isPressEqu) {
                     doNumInput("5");
                     result.setText(result.getText() + "5");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-                //}
             }
         });
         btn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(!isPressEqu) {
                     doNumInput("6");
                     result.setText(result.getText() + "6");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-               // }
             }
         });
         btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(!isPressEqu) {
                     doNumInput("7");
                     result.setText(result.getText() + "7");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-               // }
             }
         });
         btn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if(!isPressEqu) {
                     doNumInput("8");
                     result.setText(result.getText() + "8");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-                //}
             }
         });
         btn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if (!isPressEqu) {
                     doNumInput("9");
                     result.setText(result.getText() + "9");
                     isPressDiv = false;
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
-                //}
             }
         });
 
         btnDiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isPressDiv){
-                    inputs.add("/");
-                    result.setText(result.getText()+"÷");
-                    isPressDiv = true;
+                if(isInvalid){
+                    result.setText("");
+                    isInvalid = false;
                 }
+                    if(isPressEqu){
+                        inputs.add(lastResult);
+                        isPressEqu = false;
+                        result.setText("Ans");
+                    }
+                    if(!isPressDiv) {
+                        inputs.add("/");
+                        result.setText(result.getText() + "÷");
+                        isPressDiv = true;
+                    }
             }
         });
         btnSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isPressSub&&!isPressEqu){
-                    inputs.add("-");
-                    result.setText(result.getText()+"-");
-                    isPressSub = true;
+                if(isInvalid){
+                    result.setText("");
+                    isInvalid = false;
+                }
+                    if(isPressEqu){
+                        inputs.add(lastResult);
+                        isPressEqu = false;
+                        result.setText("Ans");
+                    }
+                    if(!isPressSub) {
+                        inputs.add("-");
+                        result.setText(result.getText() + "-");
+                        isPressSub = true;
                 }
             }
         });
         btnMul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isPressMul&&!isPressEqu){
-                    inputs.add("*");
-                    result.setText(result.getText()+"×");
-                    isPressMul = true;
+                if(isInvalid){
+                    result.setText("");
+                    isInvalid = false;
                 }
-
+                if(isPressEqu){
+                    inputs.add(lastResult);
+                    isPressEqu = false;
+                    result.setText("Ans");
+                    }
+                    if(!isPressMul){
+                        inputs.add("*");
+                        result.setText(result.getText()+"×");
+                        isPressMul = true;
+                    }
             }
         });
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isPressPlus&&!isPressEqu){
-                    inputs.add("+");
-                    result.setText(result.getText()+"+");
-                    isPressPlus = true;
+                if(isInvalid){
+                    result.setText("");
+                    isInvalid = false;
                 }
+                if (isPressEqu) {
+                    inputs.add(lastResult);
+                    isPressEqu = false;
+                    result.setText("Ans");
+                }
+                if (!isPressPlus){
+                    inputs.add("+");
+                    result.setText(result.getText() + "+");
+                    isPressPlus = true;
+                 }
             }
         });
         //清除按钮
@@ -234,19 +251,25 @@ public class MainActivity extends AppCompatActivity {
                 if (!isPressEqu) {
                     if (inputs.size() == 0) {
                         result.setText("您还没输入呢!");
-                        isPressEqu =  true;
+                        inputs.clear();
+                        temp.clear();
+                        isInvalid =true;
                         return;
                     } else {
                         String first = inputs.get(0);
                         if (first.equals("+") || first.equals("-") || first.equals("/") || first.equals("*")) {
                             result.setText("无效的输入!");
-                            isPressEqu =  true;
+                            inputs.clear();
+                            temp.clear();
+                            isInvalid =true;
                             return;
                         }
                         String last = inputs.get(inputs.size() - 1);
                         if (last.equals("+") || last.equals("-") || last.equals("/") || last.equals("*")) {
                             result.setText("无效的输入!");
-                            isPressEqu =  true;
+                            inputs.clear();
+                            temp.clear();
+                            isInvalid =true;
                             return;
                         }
                         for (int index = 0; index < inputs.size(); index++) {
@@ -277,13 +300,15 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         result.setText(result.getText()+"="+doResult(temp.get(temp.size()-1)));
+                        lastResult = doResult(temp.get(temp.size()-1));
+                        inputs.clear();
+                        temp.clear();
                     }
                     isPressEqu = true;
-                    //加减乘除都设为true 防止在后边继续添加
-                    isPressMul = true;
-                    isPressPlus = true;
-                    isPressSub = true;
-                    isPressDiv = true;
+                    isPressDiv = false;
+                    isPressPlus = false;
+                    isPressSub = false;
+                    isPressMul = false;
                 }else{
                     isPressEqu = true;
                 }
@@ -312,6 +337,10 @@ public class MainActivity extends AppCompatActivity {
         return  0;
     }
     protected  void doNumInput(String input){
+        if(isInvalid){
+            result.setText("");
+            isInvalid = false;
+        }
         if(isPressEqu){
             inputs.clear();
             temp.clear();
