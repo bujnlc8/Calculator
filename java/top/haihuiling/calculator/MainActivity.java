@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                                 i++;
                             }
                         }
-                        result.setText(result.getText()+"="+temp.get(temp.size()-1));
+                        result.setText(result.getText()+"="+doResult(temp.get(temp.size()-1)));
                     }
                     isPressEqu = true;
                     //加减乘除都设为true 防止在后边继续添加
@@ -334,5 +334,14 @@ public class MainActivity extends AppCompatActivity {
         }else{
             inputs.set(size-1,String.valueOf(Integer.parseInt(last)*10+Integer.parseInt(input)));
         }
+    }
+    //处理结果 去除.0
+    protected  String doResult(String result){
+        float tempResultF = Float.parseFloat(result);
+        int   tempResultI = new Float(tempResultF).intValue();
+        if((tempResultF-tempResultI)>0.0000001){
+            return   result;
+        }
+        return  String.valueOf(tempResultI);
     }
 }
