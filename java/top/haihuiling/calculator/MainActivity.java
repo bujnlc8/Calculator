@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                         isPressEqu = false;
                         result.setText("Ans");
                     }
-                    if(!isPressDiv) {
+                if(!isPressMul&&!isPressDiv&&!isPressSub&&!isPressPlus){
                         inputs.add("/");
                         result.setText(result.getText() + "÷");
                         isPressDiv = true;
@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                     isPressEqu = false;
                     result.setText("Ans");
                     }
-                    if(!isPressMul){
+                if(!isPressMul&&!isPressDiv&&!isPressSub&&!isPressPlus){
                         inputs.add("*");
                         result.setText(result.getText()+"×");
                         isPressMul = true;
@@ -291,15 +291,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if(last.equals("+")||last.equals("-")||last.equals("*")||last.equals("/")){
                         inputs.remove(inputs.size()-1);
-                        result.setText(result.getText().subSequence(0,result.getText().length()));
+                        result.setText(result.getText().subSequence(0,result.getText().length()-1));
                     }else {
                         //如果是两位数以上
-                        if(Float.parseFloat(last)>10){
+                        if(Math.abs(Float.parseFloat(last))>10){
                             if(isFloat(last)){
                                  isHaveFloat = true;
                                  floatNum = last.split("\\.")[1].length();
-                                 inputs.set(inputs.size()-1,String.valueOf(new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-(floatNum))*Integer.parseInt(last.split("\\.")[1].substring(floatNum-1,floatNum)))).floatValue()));
-                                 if(result.getText().toString().endsWith(".")){
+                                 inputs.set(inputs.size()-1,String.valueOf(Float.parseFloat(last)>0?new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-(floatNum))*Integer.parseInt(last.split("\\.")[1].substring(floatNum-1,floatNum)))).floatValue():-(new BigDecimal(last).abs().subtract(new BigDecimal(Math.pow(10,-(floatNum))*Integer.parseInt(last.split("\\.")[1].substring(floatNum-1,floatNum)))).floatValue())));
+
+                                if(result.getText().toString().endsWith(".")){
                                      result.setText(result.getText().subSequence(0,result.getText().length()-2));
                                  }else {
                                      result.setText(result.getText().subSequence(0,result.getText().length()-1));
@@ -308,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
                             }else {
                                 isHaveFloat = false;
                                 floatNum =0;
-                                inputs.set(inputs.size()-1,String.valueOf(Integer.parseInt(doResult(last))/10));
+                                inputs.set(inputs.size()-1,String.valueOf(Integer.valueOf(doResult(last))/10));
                                 if(result.getText().toString().endsWith(".")){
                                     result.setText(result.getText().subSequence(0,result.getText().length()-2));
                                 }else {
@@ -319,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
                             if(isFloat(last)){
                                 isHaveFloat = true;
                                 floatNum = last.split("\\.")[1].length();
-                                inputs.set(inputs.size()-1,String.valueOf(new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-(floatNum))*Integer.parseInt(last.split("\\.")[1].substring(floatNum-1,floatNum)))).floatValue()));
+                                inputs.set(inputs.size()-1,String.valueOf(Float.parseFloat(last)>0?new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-(floatNum))*Integer.parseInt(last.split("\\.")[1].substring(floatNum-1,floatNum)))).floatValue():-(new BigDecimal(last).abs().subtract(new BigDecimal(Math.pow(10,-(floatNum))*Integer.parseInt(last.split("\\.")[1].substring(floatNum-1,floatNum)))).floatValue())));
                                 if(result.getText().toString().endsWith(".")){
                                     result.setText(result.getText().subSequence(0,result.getText().length()-2));
                                 }else {
@@ -338,6 +339,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+                if(inputs.size()==0){
+                    result.setText("");
+                }
                 Log.v("#########",inputs.toString());
             }
         });
@@ -345,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
         btnEqu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.v("##################",inputs.toString());
                 if (!isPressEqu) {
                     if (inputs.size() == 0) {
                         result.setText("您还没输入呢!");
@@ -354,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     } else {
                         String first = inputs.get(0);
-                        if (first.equals("+") || first.equals("-") || first.equals("/") || first.equals("*")) {
+                        if (first.equals("/") || first.equals("*")) {
                             result.setText("无效的输入!");
                             inputs.clear();
                             temp.clear();
@@ -461,21 +466,53 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         String last = inputs.get(size-1);
-        //如果上一个输入是操作符 直接加入，否则last*10+input
-        if(last.equals("+")||last.equals("-")||last.equals("*")||last.equals("/")){
-            inputs.add(input);
+        if(last.equals("-")) {
+            if (size == 1) {
+                if(isHaveFloat){
+                    inputs.set(size - 1,"-" +String.valueOf(Float.parseFloat(input)/10));
+                }else {
+                    inputs.set(size - 1,"-" +String.valueOf(input));
+                }
+                return;
+            } else if (size > 2) {
+                if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("+")) {
+                    inputs.set(size - 1, "-" + String.valueOf(input));
+                    return;
+                }
+            }
+        }
+        if(last.equals("+")) {
+            if (size == 1) {
+                if(isHaveFloat){
+                    inputs.set(size - 1, String.valueOf(Float.parseFloat(input)/10));
+                }else {
+                    inputs.set(size - 1, String.valueOf(input));
+                }
+                return;
+            } else if (size > 2) {
+                if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("+")) {
+                    inputs.set(size - 1, String.valueOf(input));
+                    return;
+                }
+            }
+        }
+        if(last.equals("*")||last.equals("/")||last.equals("+")||last.equals("-")){
+            if(isHaveFloat){
+                inputs.add(String.valueOf(Float.parseFloat(input)/10));
+            }else {
+                inputs.add(input);
+            }
         }else{
-            Log.v("########",String.valueOf(isHaveFloat));
             if(!isHaveFloat){
-                inputs.set(size-1,String.valueOf(Integer.parseInt(last)*10+Integer.parseInt(input)));
+                inputs.set(size-1,String.valueOf(Integer.valueOf(last)>0?Integer.valueOf(last)*10+Integer.parseInt(input):Integer.valueOf(last)*10-Integer.valueOf(input)));
             }else{
-                inputs.set(size-1,String.valueOf(new BigDecimal(last).add(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue()));
-                Log.v("#######",inputs.toString());
+                inputs.set(size-1,String.valueOf(Float.parseFloat(last)>0?new BigDecimal(last).add(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue():new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue()));
             }
         }
         if(isHaveFloat){
             floatNum++;
         }
+        Log.v("####",inputs.toString());
     }
     //处理结果 去除.0
     protected  String doResult(String result){
