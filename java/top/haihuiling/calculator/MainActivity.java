@@ -1,13 +1,18 @@
 package top.haihuiling.calculator;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
-import java.util.ArrayList;
 import android.widget.TextView;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
+/**
+ * @author haihuiling
+ * @date 2017-02-26
+ */
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> inputs = new ArrayList<>();
     ArrayList<String> temp = new ArrayList<>();
@@ -27,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnSub;
     Button btnAdd;
     Button btnMul;
+    Button btndot;
+    Button backspace;
     TextView result;
     Boolean isPressEqu = false;
     Boolean isPressDiv = false;
@@ -35,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     Boolean isPressPlus = false;
     String lastResult ="";
     Boolean isInvalid = false;
+    Boolean isHaveFloat = false;//是否输入了浮点数
+    int floatNum = 0;//输入浮点数的位数
 //    DisplayMetrics  dm = new DisplayMetrics();
 //    int screenWidth  = dm.widthPixels;
     @Override
@@ -153,6 +162,22 @@ public class MainActivity extends AppCompatActivity {
                     isPressMul = false;
             }
         });
+        //处理小数点
+        btndot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //第一位不能输入小数点
+                if(!isHaveFloat && !isPressEqu&&inputs.size()!=0){
+                    result.setText(result.getText() + ".");
+                    isPressDiv = false;
+                    isPressPlus = false;
+                    isPressSub = false;
+                    isPressMul = false;
+                    isHaveFloat = true;
+                    floatNum =1;
+                }
+            }
+        });
 
         btnDiv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
                         inputs.add("/");
                         result.setText(result.getText() + "÷");
                         isPressDiv = true;
+                        isHaveFloat =false;
+                        floatNum =0;
                     }
             }
         });
@@ -189,6 +216,8 @@ public class MainActivity extends AppCompatActivity {
                         inputs.add("-");
                         result.setText(result.getText() + "-");
                         isPressSub = true;
+                        isHaveFloat =false;
+                        floatNum =0;
                 }
             }
         });
@@ -208,6 +237,8 @@ public class MainActivity extends AppCompatActivity {
                         inputs.add("*");
                         result.setText(result.getText()+"×");
                         isPressMul = true;
+                        isHaveFloat =false;
+                        floatNum =0;
                     }
             }
         });
@@ -227,6 +258,8 @@ public class MainActivity extends AppCompatActivity {
                     inputs.add("+");
                     result.setText(result.getText() + "+");
                     isPressPlus = true;
+                    isHaveFloat =false;
+                    floatNum =0;
                  }
             }
         });
@@ -241,7 +274,71 @@ public class MainActivity extends AppCompatActivity {
                 isPressPlus = false;
                 isPressSub = false;
                 isPressMul = false;
+                isHaveFloat=false;
+                floatNum =0;
                 result.setText("");
+            }
+        });
+        backspace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isPressEqu && inputs.size()>0) {
+                    String last = inputs.get(inputs.size() - 1);
+                    if(result.getText().toString().equals("Ans")){
+                        result.setText("");
+                        inputs.clear();
+                        return;
+                    }
+                    if(last.equals("+")||last.equals("-")||last.equals("*")||last.equals("/")){
+                        inputs.remove(inputs.size()-1);
+                        result.setText(result.getText().subSequence(0,result.getText().length()));
+                    }else {
+                        //如果是两位数以上
+                        if(Float.parseFloat(last)>10){
+                            if(isFloat(last)){
+                                 isHaveFloat = true;
+                                 floatNum = last.split("\\.")[1].length();
+                                 inputs.set(inputs.size()-1,String.valueOf(new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-(floatNum))*Integer.parseInt(last.split("\\.")[1].substring(floatNum-1,floatNum)))).floatValue()));
+                                 if(result.getText().toString().endsWith(".")){
+                                     result.setText(result.getText().subSequence(0,result.getText().length()-2));
+                                 }else {
+                                     result.setText(result.getText().subSequence(0,result.getText().length()-1));
+                                 }
+
+                            }else {
+                                isHaveFloat = false;
+                                floatNum =0;
+                                inputs.set(inputs.size()-1,String.valueOf(Integer.parseInt(doResult(last))/10));
+                                if(result.getText().toString().endsWith(".")){
+                                    result.setText(result.getText().subSequence(0,result.getText().length()-2));
+                                }else {
+                                    result.setText(result.getText().subSequence(0,result.getText().length()-1));
+                                }
+                            }
+                        }else {
+                            if(isFloat(last)){
+                                isHaveFloat = true;
+                                floatNum = last.split("\\.")[1].length();
+                                inputs.set(inputs.size()-1,String.valueOf(new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-(floatNum))*Integer.parseInt(last.split("\\.")[1].substring(floatNum-1,floatNum)))).floatValue()));
+                                if(result.getText().toString().endsWith(".")){
+                                    result.setText(result.getText().subSequence(0,result.getText().length()-2));
+                                }else {
+                                    result.setText(result.getText().subSequence(0,result.getText().length()-1));
+                                }
+                            }else {
+                                isHaveFloat = false;
+                                floatNum =0;
+                                inputs.remove(inputs.size()-1);
+                                if(result.getText().toString().endsWith(".")){
+                                    result.setText(result.getText().subSequence(0,result.getText().length()-2));
+                                }else {
+                                    result.setText(result.getText().subSequence(0,result.getText().length()-1));
+                                }
+                            }
+                        }
+                    }
+                }
+                Log.v("#########",inputs.toString());
             }
         });
         //重点处理等号
@@ -292,13 +389,14 @@ public class MainActivity extends AppCompatActivity {
                         //只剩下加号和减号未处理
                         for (int i = 0; i < temp.size(); i++) {
                             if (temp.get(i).equals("-")) {
-                                temp.set(i + 1, String.valueOf(Float.parseFloat(temp.get(i - 1)) - Float.parseFloat(temp.get(i + 1))));
+                                temp.set(i + 1, String.valueOf(new BigDecimal(temp.get(i - 1)).subtract(new BigDecimal(temp.get(i + 1)))));
                                 i++;
                             } else if (temp.get(i).equals("+")) {
-                                temp.set(i + 1, String.valueOf(Float.parseFloat(temp.get(i - 1)) +Float.parseFloat(temp.get(i + 1))));
+                                temp.set(i + 1, String.valueOf(new BigDecimal(temp.get(i - 1)).add(new BigDecimal(temp.get(i + 1)))));
                                 i++;
                             }
                         }
+                        //result.setText(temp.get(temp.size()-1));
                         result.setText(result.getText()+"="+doResult(temp.get(temp.size()-1)));
                         lastResult = doResult(temp.get(temp.size()-1));
                         inputs.clear();
@@ -309,6 +407,8 @@ public class MainActivity extends AppCompatActivity {
                     isPressPlus = false;
                     isPressSub = false;
                     isPressMul = false;
+                    isHaveFloat = false;
+                    floatNum =0;
                 }else{
                     isPressEqu = true;
                 }
@@ -334,6 +434,8 @@ public class MainActivity extends AppCompatActivity {
         btnAdd =(Button)findViewById(R.id.btnAdd);
         btnMul =(Button)findViewById(R.id.btnMul);
         result =(TextView)findViewById(R.id.tvResult);
+        btndot = (Button)findViewById(R.id.btndot);
+        backspace = (Button)findViewById(R.id.btnbackspace);
         return  0;
     }
     protected  void doNumInput(String input){
@@ -349,6 +451,8 @@ public class MainActivity extends AppCompatActivity {
             isPressPlus = false;
             isPressSub = false;
             isPressMul = false;
+            isHaveFloat =false;
+            floatNum =0;
             result.setText("");
         }
         int size = inputs.size();
@@ -361,16 +465,37 @@ public class MainActivity extends AppCompatActivity {
         if(last.equals("+")||last.equals("-")||last.equals("*")||last.equals("/")){
             inputs.add(input);
         }else{
-            inputs.set(size-1,String.valueOf(Integer.parseInt(last)*10+Integer.parseInt(input)));
+            Log.v("########",String.valueOf(isHaveFloat));
+            if(!isHaveFloat){
+                inputs.set(size-1,String.valueOf(Integer.parseInt(last)*10+Integer.parseInt(input)));
+            }else{
+                inputs.set(size-1,String.valueOf(new BigDecimal(last).add(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue()));
+                Log.v("#######",inputs.toString());
+            }
+        }
+        if(isHaveFloat){
+            floatNum++;
         }
     }
     //处理结果 去除.0
     protected  String doResult(String result){
-        float tempResultF = Float.parseFloat(result);
-        int   tempResultI = new Float(tempResultF).intValue();
-        if((tempResultF-tempResultI)>0.0000001){
-            return   result;
+        BigDecimal tempResultBig = new BigDecimal(result);
+        BigDecimal  tempResultI = new BigDecimal(tempResultBig.intValue());
+        if(Math.abs(tempResultBig.subtract(tempResultI).doubleValue())>0.00000001){
+            return  result;
         }
         return  String.valueOf(tempResultI);
+    }
+    //判断是否为浮点数
+    protected  Boolean isFloat(String result){
+        if(result.equals("+")||result.equals("-")||result.equals("*")||result.equals("/")){
+            return false;
+        }
+        BigDecimal tempResultBig = new BigDecimal(result);
+        BigDecimal  tempResultI = new BigDecimal(tempResultBig.intValue());
+        if(Math.abs(tempResultBig.subtract(tempResultI).doubleValue())>0.00000001){
+            return  true;
+        }
+        return  false;
     }
 }
