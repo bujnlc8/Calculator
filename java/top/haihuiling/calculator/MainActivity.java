@@ -349,7 +349,6 @@ public class MainActivity extends AppCompatActivity {
         btnEqu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("##################",inputs.toString());
                 if (!isPressEqu) {
                     if (inputs.size() == 0) {
                         result.setText("您还没输入呢!");
@@ -504,15 +503,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }else{
             if(!isHaveFloat){
-                inputs.set(size-1,String.valueOf(Integer.valueOf(last)>0?Integer.valueOf(last)*10+Integer.parseInt(input):Integer.valueOf(last)*10-Integer.valueOf(input)));
+                inputs.set(size-1,String.valueOf(Integer.valueOf(last)>=0?Integer.valueOf(last)*10+Integer.parseInt(input):Integer.valueOf(last)*10-Integer.valueOf(input)));
             }else{
-                inputs.set(size-1,String.valueOf(Float.parseFloat(last)>0?new BigDecimal(last).add(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue():new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue()));
+                inputs.set(size-1,String.valueOf(Float.parseFloat(last)>=0?new BigDecimal(last).add(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue():new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue()));
             }
         }
         if(isHaveFloat){
             floatNum++;
         }
-        Log.v("####",inputs.toString());
     }
     //处理结果 去除.0
     protected  String doResult(String result){
