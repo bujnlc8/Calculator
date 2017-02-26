@@ -373,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
                             isInvalid =true;
                             return;
                         }
+                        Log.v("#############",inputs.toString());
                         for (int index = 0; index < inputs.size(); index++) {
                             if (inputs.get(index).equals("*") || inputs.get(index).equals("/")) {
                                 //取temp的最后一个和inputs的下一个
@@ -383,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                                     temp.set(tempSize - 1, String.valueOf(new BigDecimal(lastTemp).multiply(new BigDecimal(next))));
                                     index++;
                                 } else {
-                                    temp.set(tempSize - 1, String.valueOf(new BigDecimal(lastTemp).divide(new BigDecimal(next))));
+                                    temp.set(tempSize - 1, String.valueOf(new BigDecimal(lastTemp).divide(new BigDecimal(next),10,5)));
                                     index++;
                                 }
                             } else {
