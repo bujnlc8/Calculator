@@ -380,10 +380,10 @@ public class MainActivity extends AppCompatActivity {
                                 String lastTemp = temp.get(tempSize - 1);
                                 String next = inputs.get(index + 1);
                                 if (inputs.get(index).equals("*")) {
-                                    temp.set(tempSize - 1, String.valueOf(Float.parseFloat(lastTemp) * Float.parseFloat(next)));
+                                    temp.set(tempSize - 1, String.valueOf(new BigDecimal(lastTemp).multiply(new BigDecimal(next))));
                                     index++;
                                 } else {
-                                    temp.set(tempSize - 1, String.valueOf(Float.parseFloat(lastTemp) / Float.parseFloat(next)));
+                                    temp.set(tempSize - 1, String.valueOf(new BigDecimal(lastTemp).divide(new BigDecimal(next))));
                                     index++;
                                 }
                             } else {
