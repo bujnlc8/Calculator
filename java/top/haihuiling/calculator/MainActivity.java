@@ -489,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return;
             } else if (size > 2) {
-                if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("+")) {
+                if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("-")) {
                     inputs.set(size - 1, String.valueOf(input));
                     return;
                 }
@@ -502,11 +502,20 @@ public class MainActivity extends AppCompatActivity {
                 inputs.add(input);
             }
         }else{
-            if(!isHaveFloat){
-                inputs.set(size-1,String.valueOf(Integer.valueOf(last)>=0?Integer.valueOf(last)*10+Integer.parseInt(input):Integer.valueOf(last)*10-Integer.valueOf(input)));
-            }else{
-                inputs.set(size-1,String.valueOf(Float.parseFloat(last)>=0?new BigDecimal(last).add(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue():new BigDecimal(last).subtract(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).floatValue()));
+            Log.v("######",inputs.toString());
+            String prefix ="";
+            Log.v("######",last);
+            if(last.contains("-")){
+                prefix="-";
             }
+            if(!isHaveFloat){
+                int tempint = Integer.valueOf(last)>=0?Integer.valueOf(last):-Integer.valueOf(last);
+                inputs.set(size-1,prefix+String.valueOf(tempint*10+Integer.parseInt(input)));
+            }else{
+                BigDecimal tempfloat  = Float.parseFloat(last)>=0?new BigDecimal(last):new BigDecimal(last).negate();
+                inputs.set(size-1,prefix+String.valueOf(tempfloat.add(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).doubleValue()));
+            }
+            Log.v("######",inputs.toString());
         }
         if(isHaveFloat){
             floatNum++;
