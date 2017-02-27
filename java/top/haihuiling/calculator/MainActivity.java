@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * @author haihuiling
@@ -54,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置主题 白天设置2 晚上设置1
+        Date today = new Date();
+        if(today.getHours()>=6&&today.getHours()<=18){
+            setTheme(R.style.AppTheme2);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_main);
         //初始化按钮
         initButton();
