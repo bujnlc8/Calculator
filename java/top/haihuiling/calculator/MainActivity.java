@@ -394,9 +394,25 @@ public class MainActivity extends AppCompatActivity {
                     if(last.equals("+")||last.equals("-")||last.equals("*")||last.equals("/")||last.equals("^")||last.equals("^3")){
                         if(last.equals("+")){
                             isPressPlus =false;
+                            if(inputs.size()>=2){
+                                if(inputs.get(inputs.size()-2).equals("^")){
+                                    isPressSqrt = true;
+                                }
+                                if(inputs.get(inputs.size()-2).equals("^3")){
+                                    isPressCube = true;
+                                }
+                            }
                         }
                         if(last.equals("-")){
                             isPressSub =false;
+                            if(inputs.size()>=2){
+                                if(inputs.get(inputs.size()-2).equals("^")){
+                                    isPressSqrt = true;
+                                }
+                                if(inputs.get(inputs.size()-2).equals("^3")){
+                                    isPressCube = true;
+                                }
+                            }
                         }
                         if(last.equals("*")){
                             isPressMul =false;
