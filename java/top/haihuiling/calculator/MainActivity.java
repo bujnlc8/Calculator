@@ -430,17 +430,17 @@ public class MainActivity extends AppCompatActivity {
                         result.setText(result.getText().subSequence(0,result.getText().length()-1));
                     }else {
                         if(inputs.size()>=2){
-                            if(inputs.get(inputs.size()-2).equals("^")){
+                            if(inputs.get(inputs.size()-2).equals("^")&&last.length()==1){
                                 isPressSqrt =true;
-                            }else if(inputs.get(inputs.size()-2).equals("^3")){
+                            }else if(inputs.get(inputs.size()-2).equals("^3")&&last.length()==1){
                                 isPressCube =true;
-                            }else if(inputs.get(inputs.size()-2).equals("+")){
+                            }else if(inputs.get(inputs.size()-2).equals("+")&&last.length()==1){
                                 isPressPlus =true;
-                            }else if(inputs.get(inputs.size()-2).equals("-")){
+                            }else if(inputs.get(inputs.size()-2).equals("-")&&last.length()==1){
                                 isPressSub =true;
-                            }else if(inputs.get(inputs.size()-2).equals("*")){
+                            }else if(inputs.get(inputs.size()-2).equals("*")&&last.length()==1){
                                 isPressMul =true;
-                            }else if(inputs.get(inputs.size()-2).equals("/")){
+                            }else if(inputs.get(inputs.size()-2).equals("/")&&last.length()==1){
                                 isPressDiv =true;
                             }
                         }
