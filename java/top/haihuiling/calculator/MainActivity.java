@@ -410,6 +410,14 @@ public class MainActivity extends AppCompatActivity {
                                 isPressSqrt =true;
                             }else if(inputs.get(inputs.size()-2).equals("^3")){
                                 isPressCube =true;
+                            }else if(inputs.get(inputs.size()-2).equals("+")){
+                                isPressPlus =true;
+                            }else if(inputs.get(inputs.size()-2).equals("-")){
+                                isPressSub =true;
+                            }else if(inputs.get(inputs.size()-2).equals("*")){
+                                isPressMul =true;
+                            }else if(inputs.get(inputs.size()-2).equals("/")){
+                                isPressDiv =true;
                             }
                         }
                         //如果是两位数以上
