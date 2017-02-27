@@ -384,6 +384,24 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                     if(last.equals("+")||last.equals("-")||last.equals("*")||last.equals("/")||last.equals("^")||last.equals("^3")){
+                        if(last.equals("+")){
+                            isPressPlus =false;
+                        }
+                        if(last.equals("-")){
+                            isPressSub =false;
+                        }
+                        if(last.equals("*")){
+                            isPressMul =false;
+                        }
+                        if(last.equals("/")){
+                            isPressDiv=false;
+                        }
+                        if(last.equals("^")){
+                            isPressSqrt =false;
+                        }
+                        if(last.equals("^3")){
+                            isPressCube =false;
+                        }
                         inputs.remove(inputs.size()-1);
                         result.setText(result.getText().subSequence(0,result.getText().length()-1));
                     }else {
@@ -497,7 +515,7 @@ public class MainActivity extends AppCompatActivity {
                                     temp.set(tempSize-1,String.valueOf(new BigDecimal(lastTemp).multiply(new BigDecimal(next))));
                                     index++;
                                 } else {
-                                    temp.set(tempSize-1,String.valueOf(new BigDecimal(lastTemp).divide(new BigDecimal(next),10,5)));
+                                    temp.set(tempSize-1,String.valueOf(new BigDecimal(lastTemp).divide(new BigDecimal(next),100,5)));
                                     index++;
                                 }
                             } else {
