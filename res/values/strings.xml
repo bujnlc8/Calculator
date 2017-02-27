@@ -10,12 +10,14 @@
     <string name="btn7">7</string>
     <string name="btn8">8</string>
     <string name="btn9">9</string>
-    <string name="btnC">清除</string>
-    <string name="btnbackspace">删除</string>
+    <string name="btnC">C</string>
+    <string name="btnbackspace">D</string>
     <string name="btndot">.</string>
     <string name="btnDiv">÷</string>
     <string name="btnEqu">=</string>
     <string name="btnSub">-</string>
     <string name="btnAdd">+</string>
     <string name="btnMul">×</string>
+    <string name="btnsqrt">√</string>
+    <string name="btncube">³√</string>
 </resources>

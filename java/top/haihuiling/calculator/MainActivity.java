@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     ArrayList<String> inputs = new ArrayList<>();
     ArrayList<String> temp = new ArrayList<>();
+    ArrayList<String> temp2 = new ArrayList<>();
     Button btn0;
     Button btn1;
     Button btn2;
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnMul;
     Button btndot;
     Button backspace;
+    Button btnsqrt;
+    Button btncube;
     TextView result;
     Boolean isPressEqu = false;
     Boolean isPressDiv = false;
@@ -44,14 +48,16 @@ public class MainActivity extends AppCompatActivity {
     Boolean isInvalid = false;
     Boolean isHaveFloat = false;//是否输入了浮点数
     int floatNum = 0;//输入浮点数的位数
-//    DisplayMetrics  dm = new DisplayMetrics();
-//    int screenWidth  = dm.widthPixels;
+    Boolean isPressSqrt = false;
+    Boolean isPressCube = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //初始化按钮
         initButton();
+        //给按钮添加点击事件
         btn0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,12 +175,12 @@ public class MainActivity extends AppCompatActivity {
                 //第一位不能输入小数点
                 if(!isHaveFloat && !isPressEqu&&inputs.size()!=0){
                     result.setText(result.getText() + ".");
-                    isPressDiv = false;
-                    isPressPlus = false;
-                    isPressSub = false;
-                    isPressMul = false;
-                    isHaveFloat = true;
-                    floatNum =1;
+//                    isPressDiv = false;
+//                    isPressPlus = false;
+//                    isPressSub = false;
+//                    isPressMul = false;
+                      isHaveFloat = true;
+                      floatNum =1;
                 }
             }
         });
@@ -191,12 +197,14 @@ public class MainActivity extends AppCompatActivity {
                         isPressEqu = false;
                         result.setText("Ans");
                     }
-                if(!isPressMul&&!isPressDiv&&!isPressSub&&!isPressPlus){
+                if(!isPressMul&&!isPressDiv&&!isPressSub&&!isPressPlus&&!isPressCube&&!isPressSqrt){
                         inputs.add("/");
                         result.setText(result.getText() + "÷");
                         isPressDiv = true;
                         isHaveFloat =false;
                         floatNum =0;
+                        isPressCube =false;
+                        isPressSqrt = false;
                     }
             }
         });
@@ -212,12 +220,23 @@ public class MainActivity extends AppCompatActivity {
                         isPressEqu = false;
                         result.setText("Ans");
                     }
-                    if(!isPressSub) {
-                        inputs.add("-");
-                        result.setText(result.getText() + "-");
-                        isPressSub = true;
-                        isHaveFloat =false;
-                        floatNum =0;
+
+                    if(!isPressSub&&!(isPressPlus&&isPressDiv||isPressPlus&&isPressMul)) {
+                        if(!isPressSqrt){
+                            inputs.add("-");
+                            result.setText(result.getText() + "-");
+                            isPressSub = true;
+                            isHaveFloat =false;
+                            floatNum =0;
+                        }
+                }
+                //如果减号前面不是是开方或者是开立 则开方或开立方为false
+                if(inputs.size()>=2){
+                    if(inputs.get(inputs.size()-2).equals("^")){
+                        isPressSqrt = false;
+                    }else if(inputs.get(inputs.size()-2).equals("^3")){
+                        isPressCube = false;
+                    }
                 }
             }
         });
@@ -233,12 +252,14 @@ public class MainActivity extends AppCompatActivity {
                     isPressEqu = false;
                     result.setText("Ans");
                     }
-                if(!isPressMul&&!isPressDiv&&!isPressSub&&!isPressPlus){
+                if(!isPressMul&&!isPressDiv&&!isPressSub&&!isPressPlus&&!isPressSqrt&&!isPressCube){
                         inputs.add("*");
                         result.setText(result.getText()+"×");
                         isPressMul = true;
                         isHaveFloat =false;
                         floatNum =0;
+                        isPressCube =false;
+                        isPressSqrt = false;
                     }
             }
         });
@@ -254,13 +275,84 @@ public class MainActivity extends AppCompatActivity {
                     isPressEqu = false;
                     result.setText("Ans");
                 }
-                if (!isPressPlus){
+                if (!isPressPlus&&!(isPressSub&&isPressDiv||isPressSub&&isPressMul)){
                     inputs.add("+");
                     result.setText(result.getText() + "+");
                     isPressPlus = true;
                     isHaveFloat =false;
                     floatNum =0;
                  }
+                //如果加号前面不是是开方或者是开立 则开方或开立方为false
+                if(inputs.size()>=2){
+                    if(inputs.get(inputs.size()-2).equals("^")){
+                        isPressSqrt = false;
+                    }else if(inputs.get(inputs.size()-2).equals("^3")){
+                        isPressCube = false;
+                    }
+                }
+            }
+        });
+        //开方
+        btnsqrt.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    if(isInvalid){
+                        result.setText("");
+                        isInvalid = false;
+                    }
+                    if (isPressEqu) {
+                        isPressEqu = false;
+                        inputs.clear();
+                        temp.clear();
+                        temp2.clear();
+                        result.setText("");
+                    }
+                    if(inputs.size()==0&&!isHaveFloat){
+                        inputs.add("^");
+                        result.setText(result.getText() + "√");
+                        isPressSqrt = true;
+                        isHaveFloat =false;
+                        floatNum =0;
+                    }
+                    Log.v("$$$$$$$$$$$$$$$$",String.valueOf(!isPressCube&&!isPressSqrt&&(isPressMul||isPressSub||isPressDiv||isPressPlus)&&!isHaveFloat));
+                    if (!isPressCube&&!isPressSqrt&&(isPressMul||isPressSub||isPressDiv||isPressPlus)&&!isHaveFloat){
+                        inputs.add("^");
+                        result.setText(result.getText() + "√");
+                        isPressSqrt = true;
+                        isHaveFloat =false;
+                        floatNum =0;
+                    }
+                }
+        });
+        //开立方
+        btncube.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public  void  onClick(View view){
+                if(isInvalid){
+                    result.setText("");
+                    isInvalid = false;
+                }
+                if (isPressEqu) {
+                    isPressEqu = false;
+                    inputs.clear();
+                    temp.clear();
+                    temp2.clear();
+                    result.setText("");
+                }
+                if(inputs.size()==0&&!isHaveFloat){
+                    inputs.add("^3");
+                    result.setText(result.getText() + "³√");
+                    isPressCube = true;
+                    isHaveFloat =false;
+                    floatNum =0;
+                }
+                if (!isPressCube&&!isPressSqrt&&(isPressMul||isPressSub||isPressDiv||isPressPlus)&&!isHaveFloat){
+                    inputs.add("^3");
+                    result.setText(result.getText() + "³√");
+                    isPressCube = true;
+                    isHaveFloat =false;
+                    floatNum =0;
+                }
             }
         });
         //清除按钮
@@ -275,6 +367,8 @@ public class MainActivity extends AppCompatActivity {
                 isPressSub = false;
                 isPressMul = false;
                 isHaveFloat=false;
+                isPressSqrt = false;
+                isPressCube =false;
                 floatNum =0;
                 result.setText("");
             }
@@ -289,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
                         inputs.clear();
                         return;
                     }
-                    if(last.equals("+")||last.equals("-")||last.equals("*")||last.equals("/")){
+                    if(last.equals("+")||last.equals("-")||last.equals("*")||last.equals("/")||last.equals("^")||last.equals("^3")){
                         inputs.remove(inputs.size()-1);
                         result.setText(result.getText().subSequence(0,result.getText().length()-1));
                     }else {
@@ -366,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         String last = inputs.get(inputs.size() - 1);
-                        if (last.equals("+") || last.equals("-") || last.equals("/") || last.equals("*")) {
+                        if (last.equals("+") || last.equals("-") || last.equals("/") || last.equals("*")||last.equals("^")||last.equals("^3")) {
                             result.setText("无效的输入!");
                             inputs.clear();
                             temp.clear();
@@ -374,23 +468,43 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         Log.v("#############",inputs.toString());
-                        for (int index = 0; index < inputs.size(); index++) {
-                            if (inputs.get(index).equals("*") || inputs.get(index).equals("/")) {
+                        //优先处理开方和开平方
+                        for(int j=0;j<inputs.size();j++){
+                            if(inputs.get(j).equals("^")){
+                                String next = inputs.get(j+1);
+                                temp2.add(String.valueOf(Math.sqrt(Double.valueOf(next))));
+                                j++;
+                            }else if(inputs.get(j).equals("^3")){
+                                String next = inputs.get(j+1);
+                                if(Double.valueOf(next)<0){
+                                    temp2.add("-"+String.valueOf(Math.pow(-Double.valueOf(next),1.0/3)));
+                                }else {
+                                    temp2.add(String.valueOf(Math.pow(Double.valueOf(next),1.0/3)));
+                                }
+                                j++;
+                            }else {
+                                temp2.add(inputs.get(j));
+                            }
+                        }
+                        Log.v("#######temp2",temp2.toString());
+                        for (int index = 0; index < temp2.size(); index++) {
+                            if (temp2.get(index).equals("*") || temp2.get(index).equals("/")) {
                                 //取temp的最后一个和inputs的下一个
                                 int tempSize = temp.size();
                                 String lastTemp = temp.get(tempSize - 1);
-                                String next = inputs.get(index + 1);
-                                if (inputs.get(index).equals("*")) {
-                                    temp.set(tempSize - 1, String.valueOf(new BigDecimal(lastTemp).multiply(new BigDecimal(next))));
+                                String next = temp2.get(index + 1);
+                                if (temp2.get(index).equals("*")) {
+                                    temp.set(tempSize-1,String.valueOf(new BigDecimal(lastTemp).multiply(new BigDecimal(next))));
                                     index++;
                                 } else {
-                                    temp.set(tempSize - 1, String.valueOf(new BigDecimal(lastTemp).divide(new BigDecimal(next),10,5)));
+                                    temp.set(tempSize-1,String.valueOf(new BigDecimal(lastTemp).divide(new BigDecimal(next),10,5)));
                                     index++;
                                 }
                             } else {
-                                temp.add(inputs.get(index));
+                                temp.add(temp2.get(index));
                             }
                         }
+                        Log.v("$$$$$$$$$$$$$$$",temp.toString());
                         //只剩下加号和减号未处理
                         for (int i = 0; i < temp.size(); i++) {
                             if (temp.get(i).equals("-")) {
@@ -406,6 +520,7 @@ public class MainActivity extends AppCompatActivity {
                         lastResult = doResult(temp.get(temp.size()-1));
                         inputs.clear();
                         temp.clear();
+                        temp2.clear();
                     }
                     isPressEqu = true;
                     isPressDiv = false;
@@ -413,6 +528,8 @@ public class MainActivity extends AppCompatActivity {
                     isPressSub = false;
                     isPressMul = false;
                     isHaveFloat = false;
+                    isPressCube =false;
+                    isPressSqrt =false;
                     floatNum =0;
                 }else{
                     isPressEqu = true;
@@ -441,6 +558,8 @@ public class MainActivity extends AppCompatActivity {
         result =(TextView)findViewById(R.id.tvResult);
         btndot = (Button)findViewById(R.id.btndot);
         backspace = (Button)findViewById(R.id.btnbackspace);
+        btnsqrt = (Button)findViewById(R.id.btnsqrt);
+        btncube = (Button)findViewById(R.id.btncube);
         return  0;
     }
     protected  void doNumInput(String input){
@@ -459,7 +578,11 @@ public class MainActivity extends AppCompatActivity {
             isHaveFloat =false;
             floatNum =0;
             result.setText("");
+            isPressCube =false;
+            isPressSqrt =false;
         }
+        isPressCube=false;
+        isPressSqrt =false;
         int size = inputs.size();
         if(size==0){
             inputs.add(input);
@@ -474,8 +597,8 @@ public class MainActivity extends AppCompatActivity {
                     inputs.set(size - 1,"-" +String.valueOf(input));
                 }
                 return;
-            } else if (size > 2) {
-                if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("+")) {
+            } else if (size >=2) {
+                if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("+")||inputs.get(size-2).equals("^3")) {
                     inputs.set(size - 1, "-" + String.valueOf(input));
                     return;
                 }
@@ -489,34 +612,31 @@ public class MainActivity extends AppCompatActivity {
                     inputs.set(size - 1, String.valueOf(input));
                 }
                 return;
-            } else if (size > 2) {
-                if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("-")) {
+            } else if (size >=2) {
+                if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("-")||inputs.get(size-2).equals("^")||inputs.get(size-2).equals("^3")) {
                     inputs.set(size - 1, String.valueOf(input));
                     return;
                 }
             }
         }
-        if(last.equals("*")||last.equals("/")||last.equals("+")||last.equals("-")){
+        if(last.equals("*")||last.equals("/")||last.equals("+")||last.equals("-")||last.equals("^")||last.equals("^3")){
             if(isHaveFloat){
                 inputs.add(String.valueOf(Float.parseFloat(input)/10));
             }else {
                 inputs.add(input);
             }
         }else{
-            Log.v("######",inputs.toString());
             String prefix ="";
-            Log.v("######",last);
             if(last.contains("-")){
                 prefix="-";
             }
             if(!isHaveFloat){
-                int tempint = Integer.valueOf(last)>=0?Integer.valueOf(last):-Integer.valueOf(last);
-                inputs.set(size-1,prefix+String.valueOf(tempint*10+Integer.parseInt(input)));
+                BigDecimal tempint = new BigDecimal(last).floatValue()>=0?new BigDecimal(last):new BigDecimal(last).negate();
+                inputs.set(size-1,prefix+String.valueOf(tempint.multiply(new BigDecimal(10)).add(new BigDecimal(input))));
             }else{
-                BigDecimal tempfloat  = Float.parseFloat(last)>=0?new BigDecimal(last):new BigDecimal(last).negate();
+                BigDecimal tempfloat  = new BigDecimal(last).floatValue()>=0?new BigDecimal(last):new BigDecimal(last).negate();
                 inputs.set(size-1,prefix+String.valueOf(tempfloat.add(new BigDecimal(Math.pow(10,-floatNum)*Integer.parseInt(input))).doubleValue()));
             }
-            Log.v("######",inputs.toString());
         }
         if(isHaveFloat){
             floatNum++;
