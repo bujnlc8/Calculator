@@ -1,5 +1,6 @@
 package top.haihuiling.calculator;
 
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_main);
-        //初始化按钮
+        //初始化
         initButton();
         //给按钮添加点击事件
         btn0.setOnClickListener(new View.OnClickListener() {
@@ -664,6 +665,9 @@ public class MainActivity extends AppCompatActivity {
         backspace = (Button) findViewById(R.id.btnbackspace);
         btnsqrt = (Button) findViewById(R.id.btnsqrt);
         btncube = (Button) findViewById(R.id.btncube);
+        SharedPreferences pref = getSharedPreferences("myPref", MODE_PRIVATE);
+        // 2. 取出数据
+        isSoundOpen= pref.getBoolean("isSoundOpen", true);
         return 0;
     }
 
@@ -837,5 +841,35 @@ public class MainActivity extends AppCompatActivity {
             menu.add(0, Menu.FIRST + 1, 0, "关闭声音").setIcon(R.drawable.sound_off);
         }
         return true;
+    }
+
+    @Override
+    public  void onStop(){
+            super.onStop();
+        SharedPreferences pref = getSharedPreferences("myPref", MODE_PRIVATE);
+        // 创建SharedPreferences.Editor对象，用于存储数据修改
+        SharedPreferences.Editor editor = pref.edit();
+        // 存储数据信息
+        editor.putBoolean("isSoundOpen", isSoundOpen);
+        // 提交数据修改
+        editor.commit();
+    }
+    @Override
+    public  void onPause(){
+        super.onPause();
+        SharedPreferences pref = getSharedPreferences("myPref", MODE_PRIVATE);
+        // 创建SharedPreferences.Editor对象，用于存储数据修改
+        SharedPreferences.Editor editor = pref.edit();
+        // 存储数据信息
+        editor.putBoolean("isSoundOpen", isSoundOpen);
+        // 提交数据修改
+        editor.commit();
+    }
+    @Override
+    public  void onResume(){
+        super.onResume();
+        SharedPreferences pref = getSharedPreferences("myPref", MODE_PRIVATE);
+        // 2. 取出数据
+        isSoundOpen= pref.getBoolean("isSoundOpen", true);
     }
 }
