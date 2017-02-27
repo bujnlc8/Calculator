@@ -405,6 +405,13 @@ public class MainActivity extends AppCompatActivity {
                         inputs.remove(inputs.size()-1);
                         result.setText(result.getText().subSequence(0,result.getText().length()-1));
                     }else {
+                        if(inputs.size()>=2){
+                            if(inputs.get(inputs.size()-2).equals("^")){
+                                isPressSqrt =true;
+                            }else if(inputs.get(inputs.size()-2).equals("^3")){
+                                isPressCube =true;
+                            }
+                        }
                         //如果是两位数以上
                         if(Math.abs(Float.parseFloat(last))>10){
                             if(isFloat(last)){
@@ -666,30 +673,14 @@ public class MainActivity extends AppCompatActivity {
         BigDecimal  tempResultI = new BigDecimal(tempResultBig.intValue());
         if(Math.abs(tempResultBig.subtract(tempResultI).doubleValue())>0.00000001){
             if(result.contains(".")){
-                if(result.endsWith("000000000")){
-                    result = result.substring(0,result.length()-9);
+                for(int index=0;index<100;index++){
+                    if(result.endsWith("0")){
+                        result = result.substring(0,result.length()-1);
+                    }
                 }
-                if(result.endsWith("00000000")){
-                    result = result.substring(0,result.length()-8);
-                }
-                if(result.endsWith("0000000")){
-                    result = result.substring(0,result.length()-7);
-                }
-                if(result.endsWith("000000")){
-                    result = result.substring(0,result.length()-6);
-                }
-                if(result.endsWith("00000")){
-                    result = result.substring(0,result.length()-5);
-                }
-                if(result.endsWith("0000")){
-                    result = result.substring(0,result.length()-4);
-                }
-                if(result.endsWith("000")){
-                    result = result.substring(0,result.length()-3);
-                }
-                if(result.endsWith("00")){
-                    result = result.substring(0,result.length()-2);
-                }
+            }
+            if(result.endsWith(".")){
+                result = result.substring(0,result.length()-1);
             }
             return  result;
         }
