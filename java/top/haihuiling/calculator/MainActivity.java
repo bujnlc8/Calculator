@@ -2,9 +2,10 @@ package top.haihuiling.calculator;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean isPressSqrt = false;
     Boolean isPressCube = false;
     private MediaPlayer music = null;
+    Boolean isSoundOpen = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
         btn0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_zero);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_zero);
                 doNumInput("0");
                 result.setText(result.getText() + "0");
                 isPressDiv = false;
@@ -84,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_one);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_one);
                 doNumInput("1");
                 result.setText(result.getText() + "1");
                 isPressDiv = false;
@@ -96,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_two);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_two);
                 doNumInput("2");
                 result.setText(result.getText() + "2");
                 isPressDiv = false;
@@ -108,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_three);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_three);
                 doNumInput("3");
                 result.setText(result.getText() + "3");
                 isPressDiv = false;
@@ -120,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_four);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_four);
                 doNumInput("4");
                 result.setText(result.getText() + "4");
                 isPressDiv = false;
@@ -132,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_five);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_five);
                 doNumInput("5");
                 result.setText(result.getText() + "5");
                 isPressDiv = false;
@@ -144,7 +152,8 @@ public class MainActivity extends AppCompatActivity {
         btn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_six);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_six);
                 doNumInput("6");
                 result.setText(result.getText() + "6");
                 isPressDiv = false;
@@ -156,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
         btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_seven);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_seven);
                 doNumInput("7");
                 result.setText(result.getText() + "7");
                 isPressDiv = false;
@@ -168,7 +178,8 @@ public class MainActivity extends AppCompatActivity {
         btn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_eight);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_eight);
                 doNumInput("8");
                 result.setText(result.getText() + "8");
                 isPressDiv = false;
@@ -180,7 +191,8 @@ public class MainActivity extends AppCompatActivity {
         btn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_nine);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_nine);
                 doNumInput("9");
                 result.setText(result.getText() + "9");
                 isPressDiv = false;
@@ -195,7 +207,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //第一位不能输入小数点
                 if (!isHaveFloat && !isPressEqu && inputs.size() != 0) {
-                    playMusic(R.raw.sweet_dot);
+                    if (isSoundOpen)
+                        playMusic(R.raw.sweet_dot);
                     result.setText(result.getText() + ".");
 //                    isPressDiv = false;
 //                    isPressPlus = false;
@@ -220,7 +233,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("Ans");
                 }
                 if (!isPressMul && !isPressDiv && !isPressSub && !isPressPlus && !isPressCube && !isPressSqrt) {
-                    playMusic(R.raw.sweet_div);
+                    if (isSoundOpen)
+                        playMusic(R.raw.sweet_div);
                     inputs.add("/");
                     result.setText(result.getText() + "÷");
                     isPressDiv = true;
@@ -246,7 +260,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!isPressSub && !(isPressPlus && isPressDiv || isPressPlus && isPressMul)) {
                     if (!isPressSqrt) {
-                        playMusic(R.raw.sweet_minus);
+                        if (isSoundOpen)
+                            playMusic(R.raw.sweet_minus);
                         inputs.add("-");
                         result.setText(result.getText() + "-");
                         isPressSub = true;
@@ -277,7 +292,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("Ans");
                 }
                 if (!isPressMul && !isPressDiv && !isPressSub && !isPressPlus && !isPressSqrt && !isPressCube) {
-                    playMusic(R.raw.sweet_multi);
+                    if (isSoundOpen)
+                        playMusic(R.raw.sweet_multi);
                     inputs.add("*");
                     result.setText(result.getText() + "×");
                     isPressMul = true;
@@ -301,7 +317,8 @@ public class MainActivity extends AppCompatActivity {
                     result.setText("Ans");
                 }
                 if (!isPressPlus && !(isPressSub && isPressDiv || isPressSub && isPressMul)) {
-                    playMusic(R.raw.sweet_plus);
+                    if (isSoundOpen)
+                        playMusic(R.raw.sweet_plus);
                     inputs.add("+");
                     result.setText(result.getText() + "+");
                     isPressPlus = true;
@@ -385,7 +402,8 @@ public class MainActivity extends AppCompatActivity {
         btnC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_ac);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_ac);
                 inputs.clear();
                 temp.clear();
                 isPressEqu = false;
@@ -403,7 +421,8 @@ public class MainActivity extends AppCompatActivity {
         backspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playMusic(R.raw.sweet_del);
+                if (isSoundOpen)
+                    playMusic(R.raw.sweet_del);
                 if (!isPressEqu && inputs.size() > 0) {
                     String last = inputs.get(inputs.size() - 1);
                     if (result.getText().toString().equals("Ans")) {
@@ -522,7 +541,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!isPressEqu) {
                     if (inputs.size() == 0) {
-                        playMusic(R.raw.error);
+                        if (isSoundOpen)
+                            playMusic(R.raw.error);
                         result.setText("您还没输入呢!");
                         inputs.clear();
                         temp.clear();
@@ -531,7 +551,8 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         String first = inputs.get(0);
                         if (first.equals("/") || first.equals("*")) {
-                            playMusic(R.raw.error);
+                            if (isSoundOpen)
+                                playMusic(R.raw.error);
                             result.setText("无效的输入!");
                             inputs.clear();
                             temp.clear();
@@ -540,14 +561,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                         String last = inputs.get(inputs.size() - 1);
                         if (last.equals("+") || last.equals("-") || last.equals("/") || last.equals("*") || last.equals("^") || last.equals("^3")) {
-                            playMusic(R.raw.error);
+                            if (isSoundOpen)
+                                playMusic(R.raw.error);
                             result.setText("无效的输入!");
                             inputs.clear();
                             temp.clear();
                             isInvalid = true;
                             return;
                         }
-                        playMusic(R.raw.sweet_equal);
+                        if (isSoundOpen)
+                            playMusic(R.raw.sweet_equal);
                         Log.v("#############", inputs.toString());
                         //优先处理开方和开平方
                         for (int j = 0; j < inputs.size(); j++) {
@@ -770,5 +793,49 @@ public class MainActivity extends AppCompatActivity {
                 music.release();
             }
         });
+    }
+
+    /**
+     * 菜单开发 控制声音
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //android.R使用的是系统自带的图标
+        if (!isSoundOpen) {
+            menu.add(0, Menu.FIRST, 0, "开启声音");
+        } else {
+            menu.add(0, Menu.FIRST + 1, 0, "关闭声音");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 1:
+                isSoundOpen = true;
+                break;
+            case 2:
+                isSoundOpen = false;
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * 再次调出菜单时触发
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        if (!isSoundOpen) {
+            menu.add(0, Menu.FIRST, 0, "开启声音");
+        } else {
+            menu.add(0, Menu.FIRST + 1, 0, "关闭声音").setIcon(R.drawable.sound_off);
+        }
+        return true;
     }
 }
