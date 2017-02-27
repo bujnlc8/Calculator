@@ -647,6 +647,32 @@ public class MainActivity extends AppCompatActivity {
         BigDecimal tempResultBig = new BigDecimal(result);
         BigDecimal  tempResultI = new BigDecimal(tempResultBig.intValue());
         if(Math.abs(tempResultBig.subtract(tempResultI).doubleValue())>0.00000001){
+            if(result.contains(".")){
+                if(result.endsWith("000000000")){
+                    result = result.substring(0,result.length()-9);
+                }
+                if(result.endsWith("00000000")){
+                    result = result.substring(0,result.length()-8);
+                }
+                if(result.endsWith("0000000")){
+                    result = result.substring(0,result.length()-7);
+                }
+                if(result.endsWith("000000")){
+                    result = result.substring(0,result.length()-6);
+                }
+                if(result.endsWith("00000")){
+                    result = result.substring(0,result.length()-5);
+                }
+                if(result.endsWith("0000")){
+                    result = result.substring(0,result.length()-4);
+                }
+                if(result.endsWith("000")){
+                    result = result.substring(0,result.length()-3);
+                }
+                if(result.endsWith("00")){
+                    result = result.substring(0,result.length()-2);
+                }
+            }
             return  result;
         }
         return  String.valueOf(tempResultI);
