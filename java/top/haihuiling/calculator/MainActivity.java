@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnAdd;
     Button btnMul;
     Button btndot;
-    Button backspace;
+    Button btnpi;
     Button btnsqrt;
     Button btncube;
     TextView result;
@@ -55,15 +55,16 @@ public class MainActivity extends AppCompatActivity {
     int floatNum = 0;//输入浮点数的位数
     Boolean isPressSqrt = false;
     Boolean isPressCube = false;
-    private MediaPlayer music = null;
     Boolean isSoundOpen = true;
+    Boolean isPressPi =false;
+    private MediaPlayer music = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //设置主题 白天设置2 晚上设置1
         Date today = new Date();
-        if (today.getHours() >= 6 && today.getHours() <= 18) {
+        if (today.getHours() >= 6 && today.getHours() <= 17) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
@@ -77,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_zero);
-                doNumInput("0");
                 result.setText(result.getText() + "0");
+                doNumInput("0");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -90,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_one);
-                doNumInput("1");
                 result.setText(result.getText() + "1");
+                doNumInput("1");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -103,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_two);
-                doNumInput("2");
                 result.setText(result.getText() + "2");
+                doNumInput("2");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -116,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_three);
-                doNumInput("3");
                 result.setText(result.getText() + "3");
+                doNumInput("3");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -129,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_four);
-                doNumInput("4");
                 result.setText(result.getText() + "4");
+                doNumInput("4");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -142,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_five);
-                doNumInput("5");
                 result.setText(result.getText() + "5");
+                doNumInput("5");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -155,8 +156,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_six);
-                doNumInput("6");
                 result.setText(result.getText() + "6");
+                doNumInput("6");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -168,8 +169,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_seven);
-                doNumInput("7");
                 result.setText(result.getText() + "7");
+                doNumInput("7");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -181,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_eight);
-                doNumInput("8");
                 result.setText(result.getText() + "8");
+                doNumInput("8");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -194,8 +195,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isSoundOpen)
                     playMusic(R.raw.sweet_nine);
-                doNumInput("9");
                 result.setText(result.getText() + "9");
+                doNumInput("9");
                 isPressDiv = false;
                 isPressPlus = false;
                 isPressSub = false;
@@ -207,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //第一位不能输入小数点
-                if (!isHaveFloat && !isPressEqu && inputs.size() != 0) {
+                if (!isHaveFloat && !isPressEqu && inputs.size() != 0&&!isPressPi) {
                     if (isSoundOpen)
                         playMusic(R.raw.sweet_dot);
                     result.setText(result.getText() + ".");
@@ -243,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
                     floatNum = 0;
                     isPressCube = false;
                     isPressSqrt = false;
+                    isPressPi =false;
                 }
             }
         });
@@ -268,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
                         isPressSub = true;
                         isHaveFloat = false;
                         floatNum = 0;
+                        isPressPi =false;
                     }
                 }
                 //如果减号前面不是是开方或者是开立 则开方或开立方为false
@@ -302,6 +305,7 @@ public class MainActivity extends AppCompatActivity {
                     floatNum = 0;
                     isPressCube = false;
                     isPressSqrt = false;
+                    isPressPi =false;
                 }
             }
         });
@@ -325,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
                     isPressPlus = true;
                     isHaveFloat = false;
                     floatNum = 0;
+                    isPressPi =false;
                 }
                 //如果加号前面不是是开方或者是开立 则开方或开立方为false
                 if (inputs.size() >= 2) {
@@ -416,125 +421,64 @@ public class MainActivity extends AppCompatActivity {
                 isPressSqrt = false;
                 isPressCube = false;
                 floatNum = 0;
+                isPressPi =false;
                 result.setText("");
             }
         });
-        backspace.setOnClickListener(new View.OnClickListener() {
+
+        btnpi.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if (isSoundOpen)
-                    playMusic(R.raw.sweet_del);
-                if (!isPressEqu && inputs.size() > 0) {
-                    String last = inputs.get(inputs.size() - 1);
-                    if (result.getText().toString().equals("Ans")) {
-                        result.setText("");
-                        inputs.clear();
-                        return;
-                    }
-                    if (last.equals("+") || last.equals("-") || last.equals("*") || last.equals("/") || last.equals("^") || last.equals("^3")) {
-                        if (last.equals("+")) {
-                            isPressPlus = false;
-                            if (inputs.size() >= 2) {
-                                if (inputs.get(inputs.size() - 2).equals("^")) {
-                                    isPressSqrt = true;
-                                }
-                                if (inputs.get(inputs.size() - 2).equals("^3")) {
-                                    isPressCube = true;
-                                }
-                            }
-                        }
-                        if (last.equals("-")) {
-                            isPressSub = false;
-                            if (inputs.size() >= 2) {
-                                if (inputs.get(inputs.size() - 2).equals("^")) {
-                                    isPressSqrt = true;
-                                }
-                                if (inputs.get(inputs.size() - 2).equals("^3")) {
-                                    isPressCube = true;
-                                }
-                            }
-                        }
-                        if (last.equals("*")) {
-                            isPressMul = false;
-                        }
-                        if (last.equals("/")) {
-                            isPressDiv = false;
-                        }
-                        if (last.equals("^")) {
-                            isPressSqrt = false;
-                        }
-                        if (last.equals("^3")) {
-                            isPressCube = false;
-                        }
-                        inputs.remove(inputs.size() - 1);
-                        result.setText(result.getText().subSequence(0, result.getText().length() - 1));
-                    } else {
-                        if (inputs.size() >= 2) {
-                            if (inputs.get(inputs.size() - 2).equals("^") && last.length() == 1) {
-                                isPressSqrt = true;
-                            } else if (inputs.get(inputs.size() - 2).equals("^3") && last.length() == 1) {
-                                isPressCube = true;
-                            } else if (inputs.get(inputs.size() - 2).equals("+") && last.length() == 1) {
-                                isPressPlus = true;
-                            } else if (inputs.get(inputs.size() - 2).equals("-") && last.length() == 1) {
-                                isPressSub = true;
-                            } else if (inputs.get(inputs.size() - 2).equals("*") && last.length() == 1) {
-                                isPressMul = true;
-                            } else if (inputs.get(inputs.size() - 2).equals("/") && last.length() == 1) {
-                                isPressDiv = true;
-                            }
-                        }
-                        //如果是两位数以上
-                        if (Math.abs(Float.parseFloat(last)) > 10) {
-                            if (isFloat(last)) {
-                                isHaveFloat = true;
-                                floatNum = last.split("\\.")[1].length();
-                                inputs.set(inputs.size() - 1, String.valueOf(Float.parseFloat(last) > 0 ? new BigDecimal(last).subtract(new BigDecimal(Math.pow(10, -(floatNum)) * Integer.parseInt(last.split("\\.")[1].substring(floatNum - 1, floatNum)))).floatValue() : -(new BigDecimal(last).abs().subtract(new BigDecimal(Math.pow(10, -(floatNum)) * Integer.parseInt(last.split("\\.")[1].substring(floatNum - 1, floatNum)))).floatValue())));
-
-                                if (result.getText().toString().endsWith(".")) {
-                                    result.setText(result.getText().subSequence(0, result.getText().length() - 2));
-                                } else {
-                                    result.setText(result.getText().subSequence(0, result.getText().length() - 1));
-                                }
-
-                            } else {
-                                isHaveFloat = false;
-                                floatNum = 0;
-                                inputs.set(inputs.size() - 1, String.valueOf(Integer.valueOf(doResult(last)) / 10));
-                                if (result.getText().toString().endsWith(".")) {
-                                    result.setText(result.getText().subSequence(0, result.getText().length() - 2));
-                                } else {
-                                    result.setText(result.getText().subSequence(0, result.getText().length() - 1));
-                                }
-                            }
-                        } else {
-                            if (isFloat(last)) {
-                                isHaveFloat = true;
-                                floatNum = last.split("\\.")[1].length();
-                                inputs.set(inputs.size() - 1, String.valueOf(Float.parseFloat(last) > 0 ? new BigDecimal(last).subtract(new BigDecimal(Math.pow(10, -(floatNum)) * Integer.parseInt(last.split("\\.")[1].substring(floatNum - 1, floatNum)))).floatValue() : -(new BigDecimal(last).abs().subtract(new BigDecimal(Math.pow(10, -(floatNum)) * Integer.parseInt(last.split("\\.")[1].substring(floatNum - 1, floatNum)))).floatValue())));
-                                if (result.getText().toString().endsWith(".")) {
-                                    result.setText(result.getText().subSequence(0, result.getText().length() - 2));
-                                } else {
-                                    result.setText(result.getText().subSequence(0, result.getText().length() - 1));
-                                }
-                            } else {
-                                isHaveFloat = false;
-                                floatNum = 0;
-                                inputs.remove(inputs.size() - 1);
-                                if (result.getText().toString().endsWith(".")) {
-                                    result.setText(result.getText().subSequence(0, result.getText().length() - 2));
-                                } else {
-                                    result.setText(result.getText().subSequence(0, result.getText().length() - 1));
-                                }
-                            }
-                        }
-                    }
-                }
-                if (inputs.size() == 0) {
+                if (isInvalid) {
                     result.setText("");
+                    isInvalid = false;
                 }
-                Log.v("#########", inputs.toString());
-            }
+                if (isPressEqu || inputs.size() == 0) {
+                    inputs.add("pi");
+                    result.setText(result.getText() + "π");
+                    isPressPi = true;
+                    isHaveFloat = false;
+                    floatNum = 0;
+                }
+                if (!isPressPi && ((isPressMul || isPressSub || isPressDiv || isPressPlus || isPressCube || isPressSqrt) && !isHaveFloat)) {
+                    if (inputs.size() == 1) {
+                        if (inputs.get(0).equals("+")) {
+                            inputs.set(0, "pi");
+                        } else if (inputs.get(0).equals("-")) {
+                            inputs.set(0, "-pi");
+                        }else {
+                            inputs.add("pi");
+                        }
+                    } else if (inputs.size() >= 2) {
+                            if (inputs.get(inputs.size() - 1).equals("+")) {
+                                if (inputs.get(inputs.size() - 2).equals("+") || inputs.get(inputs.size() - 2).equals("-") || inputs.get(inputs.size() - 2).equals("*") || inputs.get(inputs.size() - 2).equals("/") || inputs.get(inputs.size() - 2).equals("^") || inputs.get(inputs.size() - 2).equals("^3")) {
+                                    inputs.set(inputs.size() - 2, "pi");
+                                } else {
+                                    inputs.add("pi");
+                                }
+                            } else if (inputs.get(inputs.size() - 1).equals("-")) {
+                                if (inputs.get(inputs.size() - 2).equals("+") || inputs.get(inputs.size() - 2).equals("-") || inputs.get(inputs.size() - 2).equals("*") || inputs.get(inputs.size() - 2).equals("/") || inputs.get(inputs.size() - 2).equals("^") || inputs.get(inputs.size() - 2).equals("^3")) {
+                                    inputs.set(inputs.size() - 2, "-pi");
+                                } else {
+                                    inputs.add("pi");
+                                }
+                            } else {
+                                inputs.add("pi");
+                            }
+                        }
+                        result.setText(result.getText() + "π");
+                        isPressPi = true;
+                        isPressEqu = false;
+                        isPressDiv = false;
+                        isPressPlus = false;
+                        isPressSub = false;
+                        isPressMul = false;
+                        isHaveFloat = false;
+                        isPressCube = false;
+                        isPressSqrt = false;
+                        floatNum = 0;
+                    }
+                }
         });
         //重点处理等号
         btnEqu.setOnClickListener(new View.OnClickListener() {
@@ -573,6 +517,15 @@ public class MainActivity extends AppCompatActivity {
                         if (isSoundOpen)
                             playMusic(R.raw.sweet_equal);
                         Log.v("#############", inputs.toString());
+                        //将pi替换成数字
+                        for(int k=0;k<inputs.size();k++){
+                            if(inputs.get(k).equals("pi")){
+                                inputs.set(k,String.valueOf(Math.PI));
+                            }
+                            if(inputs.get(k).equals("-pi")){
+                                inputs.set(k,"-"+String.valueOf(Math.PI));
+                            }
+                        }
                         //优先处理开方和开平方
                         for (int j = 0; j < inputs.size(); j++) {
                             if (inputs.get(j).equals("^")) {
@@ -613,10 +566,15 @@ public class MainActivity extends AppCompatActivity {
                         //只剩下加号和减号未处理
                         for (int i = 0; i < temp.size(); i++) {
                             if (temp.get(i).equals("-")) {
-                                temp.set(i + 1, String.valueOf(new BigDecimal(temp.get(i - 1)).subtract(new BigDecimal(temp.get(i + 1)))));
+                                if(i==0){
+                                    temp.set(i+1,"-"+temp.get(i+1));
+                                }else{
+                                    temp.set(i + 1, String.valueOf(new BigDecimal(temp.get(i - 1)).subtract(new BigDecimal(temp.get(i + 1)))));
+                                }
                                 i++;
                             } else if (temp.get(i).equals("+")) {
-                                temp.set(i + 1, String.valueOf(new BigDecimal(temp.get(i - 1)).add(new BigDecimal(temp.get(i + 1)))));
+                                if(i>=1)
+                                    temp.set(i + 1, String.valueOf(new BigDecimal(temp.get(i - 1)).add(new BigDecimal(temp.get(i + 1)))));
                                 i++;
                             }
                         }
@@ -636,6 +594,7 @@ public class MainActivity extends AppCompatActivity {
                     isPressCube = false;
                     isPressSqrt = false;
                     floatNum = 0;
+                    isPressPi =false;
                 } else {
                     isPressEqu = true;
                 }
@@ -662,12 +621,16 @@ public class MainActivity extends AppCompatActivity {
         btnMul = (Button) findViewById(R.id.btnMul);
         result = (TextView) findViewById(R.id.tvResult);
         btndot = (Button) findViewById(R.id.btndot);
-        backspace = (Button) findViewById(R.id.btnbackspace);
+        btnpi = (Button) findViewById(R.id.btnpi);
         btnsqrt = (Button) findViewById(R.id.btnsqrt);
         btncube = (Button) findViewById(R.id.btncube);
-        SharedPreferences pref = getSharedPreferences("myPref", MODE_PRIVATE);
-        // 2. 取出数据
-        isSoundOpen= pref.getBoolean("isSoundOpen", true);
+        try{
+            SharedPreferences pref = getSharedPreferences("myPref", MODE_PRIVATE);
+            // 2. 取出数据
+            isSoundOpen= pref.getBoolean("isSoundOpen", true);
+        }catch (Exception e){
+            isSoundOpen = true;
+        }
         return 0;
     }
 
@@ -689,6 +652,7 @@ public class MainActivity extends AppCompatActivity {
             result.setText("");
             isPressCube = false;
             isPressSqrt = false;
+            isPressPi = false;
         }
         isPressCube = false;
         isPressSqrt = false;
@@ -698,17 +662,29 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         String last = inputs.get(size - 1);
+        if(last.equals("pi")){
+            Log.v("&&&&&&",result.getText().toString());
+            result.setText(result.getText().toString().substring(0,result.getText().length()-1));
+            return;
+        }
         if (last.equals("-")) {
             if (size == 1) {
                 if (isHaveFloat) {
                     inputs.set(size - 1, "-" + String.valueOf(Float.parseFloat(input) / 10));
+                    floatNum++;
                 } else {
                     inputs.set(size - 1, "-" + String.valueOf(input));
                 }
                 return;
             } else if (size >= 2) {
                 if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("+") || inputs.get(size - 2).equals("^3")) {
-                    inputs.set(size - 1, "-" + String.valueOf(input));
+                    if(!isHaveFloat){
+                        inputs.set(size - 1, "-"+String.valueOf(input));
+                    }else {
+                        inputs.set(size - 1,"-"+String.valueOf(Float.parseFloat(input) / 10));
+                        floatNum++;
+                    }
+                    //inputs.set(size - 1, "-" + String.valueOf(input));
                     return;
                 }
             }
@@ -717,13 +693,19 @@ public class MainActivity extends AppCompatActivity {
             if (size == 1) {
                 if (isHaveFloat) {
                     inputs.set(size - 1, String.valueOf(Float.parseFloat(input) / 10));
+                    floatNum++;
                 } else {
                     inputs.set(size - 1, String.valueOf(input));
                 }
                 return;
             } else if (size >= 2) {
                 if (inputs.get(size - 2).equals("/") || inputs.get(size - 2).equals("*") || inputs.get(size - 2).equals("-") || inputs.get(size - 2).equals("^") || inputs.get(size - 2).equals("^3")) {
-                    inputs.set(size - 1, String.valueOf(input));
+                    if(!isHaveFloat){
+                        inputs.set(size - 1, String.valueOf(input));
+                    }else {
+                        inputs.set(size - 1, String.valueOf(Float.parseFloat(input) / 10));
+                        floatNum++;
+                    }
                     return;
                 }
             }
@@ -789,14 +771,18 @@ public class MainActivity extends AppCompatActivity {
     播放声音
      */
     private void playMusic(int MusicId) {
-        music = MediaPlayer.create(this, MusicId);
-        music.start();
-        music.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                music.release();
-            }
-        });
+        try {
+            music = MediaPlayer.create(this, MusicId);
+            music.start();
+            music.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    music.release();
+                }
+            });
+        }catch (Exception e){
+            Log.v("play music error",e.toString());
+        }
     }
 
     /**
@@ -838,7 +824,7 @@ public class MainActivity extends AppCompatActivity {
         if (!isSoundOpen) {
             menu.add(0, Menu.FIRST, 0, "开启声音");
         } else {
-            menu.add(0, Menu.FIRST + 1, 0, "关闭声音").setIcon(R.drawable.sound_off);
+            menu.add(0, Menu.FIRST + 1, 0, "关闭声音");
         }
         return true;
     }
@@ -855,8 +841,8 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
     @Override
-    public  void onPause(){
-        super.onPause();
+    public  void onDestroy(){
+        super.onDestroy();
         SharedPreferences pref = getSharedPreferences("myPref", MODE_PRIVATE);
         // 创建SharedPreferences.Editor对象，用于存储数据修改
         SharedPreferences.Editor editor = pref.edit();
@@ -871,5 +857,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("myPref", MODE_PRIVATE);
         // 2. 取出数据
         isSoundOpen= pref.getBoolean("isSoundOpen", true);
+        //设置主题 白天设置2 晚上设置1
+        Date today = new Date();
+        if (today.getHours() >= 6 && today.getHours() <= 17) {
+            setTheme(R.style.AppTheme2);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
     }
 }

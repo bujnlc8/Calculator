@@ -26,16 +26,6 @@
         android:layout_height="wrap_content" android:layout_weight="1">
 
         <Button
-            android:id="@+id/btnbackspace"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:text="@string/btnbackspace"
-            android:background="?attr/colorControlHighlight"
-            android:textSize="24sp"
-            android:textAlignment="center" />
-
-        <Button
             android:id="@+id/btnC"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
@@ -44,6 +34,15 @@
             android:background="?attr/colorControlHighlight"
             android:textSize="24sp"
             android:textColor="@android:color/holo_red_light" />
+        <Button
+            android:id="@+id/btnpi"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/btnpi"
+            android:background="?attr/colorControlHighlight"
+            android:textSize="24sp"
+            android:textAlignment="center" />
         <Button
             android:id="@+id/btnsqrt"
             android:layout_width="wrap_content"
